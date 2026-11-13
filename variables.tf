@@ -12,5 +12,13 @@ EOT
     entity_type = string
     tag_id      = string
   }))
+  validation {
+    condition = alltrue([
+      for k, v in var.tag_assignments : (
+        contains(["users", "teams", "escalation_policies"], v.entity_type)
+      )
+    ])
+    error_message = "must be one of: \"users\", \"teams\", \"escalation_policies\""
+  }
 }
 
